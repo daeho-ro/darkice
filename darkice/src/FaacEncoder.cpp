@@ -114,7 +114,11 @@ FaacEncoder :: open ( void )
     faac_params           params;
     faac_status           status;
 
+#if FAAC_VERSION_MAJOR >= 2
+    if ( (status = faac_params_init( &params, sizeof( params))) < 0 ) {
+#else
     if ( (status = faac_params_init( &params)) < 0 ) {
+#endif
         throw Exception(__FILE__, __LINE__,
                         "error initializing faac parameters",
                         faac_strerror(status));
